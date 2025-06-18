@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeoPaint - Modern Web Painting App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="app-header slide-up">
+        <h1 class="logo">
+          <i class="fas fa-palette logo-icon"></i> Neo<span>Paint</span>
+        </h1>
+        <div class="header-actions">
+          <button id="clear-btn" class="btn danger">
+            <i class="fas fa-trash"></i> <span>Clear</span>
+          </button>
+          <button id="save-btn" class="btn primary">
+            <i class="fas fa-download"></i> <span>Save</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <aside class="toolbar fade-in">
+          <div class="tool-section">
+            <h3>Tools</h3>
+            <div class="tool-options">
+              <button class="tool-btn active" data-tool="brush" title="Brush">
+                <i class="fas fa-paintbrush"></i>
+              </button>
+              <button class="tool-btn" data-tool="eraser" title="Eraser">
+                <i class="fas fa-eraser"></i>
+              </button>
+              <button class="tool-btn" data-tool="line" title="Line">
+                <i class="fas fa-slash"></i>
+              </button>
+              <button class="tool-btn" data-tool="rectangle" title="Rectangle">
+                <i class="fas fa-square"></i>
+              </button>
+              <button class="tool-btn" data-tool="circle" title="Circle">
+                <i class="fas fa-circle"></i>
+              </button>
+              <button class="tool-btn" data-tool="fill" title="Fill">
+                <i class="fas fa-fill-drip"></i>
+              </button>
+              <button class="tool-btn" data-tool="text" title="Text">
+                <i class="fas fa-font"></i>
+              </button>
+              <button
+                class="tool-btn"
+                data-tool="eyedropper"
+                title="Eyedropper"
+              >
+                <i class="fas fa-eye-dropper"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="tool-section">
+            <h3>Brush Size</h3>
+            <input
+              title="Range"
+              type="range"
+              id="brush-size"
+              min="1"
+              max="50"
+              value="5"
+            />
+            <div class="slider-value" id="brush-size-value">5px</div>
+          </div>
+
+          <div class="tool-section">
+            <h3>Colors</h3>
+            <div class="color-palette">
+              <div
+                class="color-option"
+                style="background-color: #000000"
+                data-color="#000000"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffffff"
+                data-color="#ffffff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff0000"
+                data-color="#ff0000"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #00ff00"
+                data-color="#00ff00"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #0000ff"
+                data-color="#0000ff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffff00"
+                data-color="#ffff00"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff00ff"
+                data-color="#ff00ff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #00ffff"
+                data-color="#00ffff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff9900"
+                data-color="#ff9900"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #9900ff"
+                data-color="#9900ff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #00cc66"
+                data-color="#00cc66"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff6666"
+                data-color="#ff6666"
+              ></div>
+            </div>
+            <div class="color-picker">
+              <label for="custom-color">Custom Color:</label>
+              <input type="color" id="custom-color" value="#4f46e5" />
+            </div>
+          </div>
+
+          <div class="tool-section">
+            <h3>Opacity</h3>
+            <input
+              title="Opacity"
+              type="range"
+              id="opacity"
+              min="10"
+              max="100"
+              value="100"
+            />
+            <div class="slider-value" id="opacity-value">100%</div>
+          </div>
+
+          <div class="tool-section">
+            <div class="actions-row">
+              <button id="undo-btn" class="btn secondary" title="Undo" disabled>
+                <i class="fas fa-undo"></i> Undo
+              </button>
+              <button id="redo-btn" class="btn secondary" title="Redo" disabled>
+                <i class="fas fa-redo"></i> Redo
+              </button>
+            </div>
+          </div>
+        </aside>
+        <button title="Toggle" class="toolbar-toggle" id="toolbar-toggle">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="canvas-container">
+          <canvas id="drawing-canvas"></canvas>
+          <canvas id="canvas-overlay" class="canvas-overlay"></canvas>
+        </div>
+      </main>
+
+      <footer class="app-footer fade-in">
+        <div class="cursor-position" id="cursor-position">X: 0, Y: 0</div>
+        <div class="zoom-controls">
+          <button id="zoom-out" class="btn icon-btn" title="Zoom Out">
+            <i class="fas fa-search-minus"></i>
+          </button>
+          <span id="zoom-level">100%</span>
+          <button id="zoom-in" class="btn icon-btn" title="Zoom In">
+            <i class="fas fa-search-plus"></i>
+          </button>
+          <button id="reset-zoom" class="btn icon-btn" title="Reset Zoom">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <div class="notification" id="notification">
+      <i class="fas fa-check-circle"></i>
+      <span id="notification-text">Notification message</span>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
